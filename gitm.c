@@ -305,8 +305,7 @@ int view(char board[20][20], struct position mistcenter){
     char ystring[2]="";
     char char_x = 'A'+x;
     printf("%c",char_x);
-    sprintf(ystring,"%d",y);
-    printf("%s,",ystring);
+    printf("%d,",y);
 
     //get the second part of string
     int scan_x = x-3, scan_y = y-1+3;
@@ -351,11 +350,11 @@ struct position place(char board[20][20], char *secondpart, char *history,char p
         }
         int newx = location.x+1;
         mistcenter.x = (5 * (newx * newx) + 3 * newx + 4) % 19;
-        printf("location.x %d\n", location.x);
-        printf("mistcenter.x %d\n", mistcenter.x);
+//        printf("location.x %d\n", location.x);
+//        printf("mistcenter.x %d\n", mistcenter.x);
         mistcenter.y = (4 * (newx * newx) + 2 * newx - 4) % 19;
-        printf("location.y %d\n", location.y);
-        printf("mistcenter.y %d\n", mistcenter.y);
+//        printf("location.y %d\n", location.y);
+//        printf("mistcenter.y %d\n", mistcenter.y);
     }
     return mistcenter;
 }
@@ -402,7 +401,7 @@ int main() {
 
         //term
         else if (strcmp(input, "term") == 0) {
-            printf("Terminated.\n");
+//            printf("Terminated.\n");
             break;
         }
 
@@ -423,20 +422,40 @@ int main() {
 
         else if (strncmp(input, "place ", 6) == 0) {//check the "place " is correct
             char* secondpart = &input[6];
-
-            //put place
-            player = who(turns);
-//            printf("turns %d and player %c\n", turns, player);
-            mistcenter = place(board,secondpart,history, player, mistcenter);
-            if (ifwin(board,player,secondpart)==1){
-                printf("%c win!\n", player);
-                return 0;
+            if(strcmp(checkalphaint(secondpart),"error") != 0){
+                //put place
+                player = who(turns);
+//                printf("turns %d and player %c\n", turns, player);
+                mistcenter = place(board,secondpart,history, player, mistcenter);
+                if (ifwin(board,player,secondpart)==1){
+                    if (player == 'B'){
+                        printf("Black wins!\n");
+                        printf("%s\n",history);
+                        printf("Thank you for playing!\n");
+                    }
+                    if (player == 'W'){
+                        printf("White wins!\n");
+                        printf("%s\n",history);
+                        printf("Thank you for playing!\n");
+                    }
+                    return 0;
+                }
+                else if (turns == 361){
+                    printf("Wow a tie!\n");
+                    printf("Thank you for playing");
+                }
+                turns++;
             }
-            turns++;
+            else{
+                printf("invalid!");
+            }
         }
         //view
         else if (strcmp(input, "view") == 0) {
             view(board,mistcenter);
+        }
+        else if (strcmp(input, "history") == 0) {
+            printf("%s\n", history);
         }
 
         //printall
