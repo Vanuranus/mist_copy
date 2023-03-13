@@ -290,6 +290,7 @@ int historycheck(char *secondpart, char*history){
     return 0;
 }
 
+
 int view(char board[20][20], struct position mistcenter){
     for (int i = 18; i > -1; i--) {
         for (int j = 0; j < 19; j++) {
