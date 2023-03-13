@@ -302,7 +302,6 @@ int view(char board[20][20], struct position mistcenter){
     x = mistcenter.x;
     y = mistcenter.y+1;
     //get the first part convert position to be string. eg 9,9-> J10 whatever just print it out
-    char ystring[2]="";
     char char_x = 'A'+x;
     printf("%c",char_x);
     printf("%d,",y);
